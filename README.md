@@ -53,11 +53,15 @@ Usage
 -----
 
 ### Quick start
-Set the directory of your input tree in 
+Set the directory of your input tree in src/GSM/gsm.java
+
 -String inputTree = " ";
 
-Set the directory of your output file for EGSM in 
+Set the directory of your output file for EGSM in src/GSM/gsm.java
+
 -String OutputFileName = " ";
 
 Note that the input tree is in .newick format and the names of individuals are of form ``leaf_1, leaf_2,...''.
+
+Run src/GSM/gsm.java to compute the EGSM. 
 

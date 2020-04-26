@@ -14,24 +14,6 @@ Installation
 
 There are several options available to install the package:
 
-### Integrate to a gradle script
-
-Simply add the following lines (replacing 1.0.0 by the current version (see git tags)):
-
-```groovy
-repositories {
- mavenCentral()
- jcenter()
- maven {
-    url "http://people.stat.sfu.ca/~lwa68/maven/"
-  }
-}
-
-dependencies {
-  compile group: 'ca.sfu.stat', name: 'annealedSMC', version: '1.0.0'
-}
-```
-
 ### Compile using the provided gradle script
 
 - Check out the source ``git clone https://github.com/shijiaw/Expected-Genetic-Similarity-Matrices.git``

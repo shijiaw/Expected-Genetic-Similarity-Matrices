@@ -53,5 +53,11 @@ Usage
 -----
 
 ### Quick start
+Set the directory of your input tree in 
+-String inputTree = " ";
 
+Set the directory of your output file for EGSM in 
+-String OutputFileName = " ";
+
+Note that the input tree is in .newick format and the names of individuals are of form ``leaf_1, leaf_2,...''.
 

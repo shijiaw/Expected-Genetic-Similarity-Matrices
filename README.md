@@ -4,15 +4,9 @@ Summary
 
 <!-- [![Build Status](https://travis-ci.org/alexandrebouchard/phylosmcsampler.png?branch=master)](https://travis-ci.org/alexandrebouchard/phylosmcsampler) -->
 
-AnnealedSMC is a recently proposed algorithm (annealed sequential Monte Carlo) with the adaptive determination of annealing
- parameters based on the relative conditional effective sample size for Bayesian phylogenetics.
-This algorithm provides an unbiased estimator for the probability of the
- data. This unbiasedness property can be used for the purpose of testing the correctness of
- posterior simulation software. Unlike the
- previous SMC methods in phylogenetics, the annealed SMC has the same state space for all the
- intermediate distributions, which allows standard Markov chain Monte Carlo (MCMC) tree
- moves to be utilized as the basis for SMC proposal distributions.
-
+Expected genetic similarity matrices is a recently proposed approach for computing genetic similarities using phylogenies. 
+The standard method for computing similarity matrices involves the  
+inner product of observed genetic variant matrices. Such an approach is inaccurate if genotypes are not available, or not densely sampled, or of poor quality (for example, genetic analysis of extinct species). We provide a new method for computing genetic similarities among individuals using phylogenetic trees. Our method can supplement (or stand in for) computations based on genetic sequences. 
 
 Installation
 ------------
@@ -60,10 +54,4 @@ Usage
 
 ### Quick start
 
--useDataGenerator true   -nThousandIters 0.001  -nTax  15 -len  200 -sequenceType DNA -generateDNAdata true -useDataGen4GTRGammaI false -nThreads 2  -treeRate 10 -deltaProposalRate 10 -useNonclock true -useSlightNonclock false -sdScale 0.3 
--iterScalings  100   -methods   ANNEALING   -resamplingStrategy ESS  -nAnnealing 10000 -nSubsampling 10000 -alphaSMCSampler 0.9999    -nSitesPerIndex  10
--essRatioThreshold 0.5 -adaptiveTempDiff true  -runDSMCusingadaptiveTemp  false
--adaptiveType 0     -csmc_trans2tranv 2.0   -mb_trans2tranv 2.0 -setJC false  -fixtratioInMb true  -treePrior unconstrained:exp(10)     -fixNucleotideFreq true   -nReplica  1   -repPerDataPt   10  -mainRand 452  -gen.rand 345 -useCESS true -useNNI true  -useLIS  false  -usenewSS false  -useRevSS false -ntempSS  50  -mcmcfac  1 -usenewDSMC  true
--mrBayesPath  /Users/oudomame/Dropbox/phyloSoftware/mrbayes-3.2.6/src//mb  -neighborPath /Users/oudomame/Dropbox/phyloSoftware/phylip-3.69/exe//neighbor
 
-For settings in our experimental results, please refers to ``https://github.com/shijiaw/annealingExperiment''.

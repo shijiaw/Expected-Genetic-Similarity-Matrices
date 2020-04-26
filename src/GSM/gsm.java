@@ -14,8 +14,8 @@ import pty.UnrootedTree;
 public class gsm {
 	public static void main(String[] args) {
 				
-		String inputTree = "/Users/oudomame/EGSM/Example/tree1.newick";
-		String OutputFileName = "/Users/oudomame/EGSM/Example/K.csv";
+		String inputTree = "/Users/oudomame/Expected-Genetic-Similarity-Matrices/Example/tree1.newick";
+		String OutputFileName = "/Users/oudomame/Expected-Genetic-Similarity-Matrices/Example/K.csv";
 		PrintWriter KOut = IOUtils.openOutEasy(new File(OutputFileName));
 		//PrintWriter KOut = IOUtils.openOutEasy(new File("/Users/oudomame/EGSM/Example/", OutputFileName));
 		

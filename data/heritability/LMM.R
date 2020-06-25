@@ -38,7 +38,7 @@ Gm <- (X[,site]-mean(X[,site]))
 
 #1/sum(Gm*Gm)*sum(Gm*Y[,1])
 
-Niter <- 5000
+Niter <- 10000
 betastore <- rep(NA, Niter)
 bstore <- rnorm(length(b),0,0.4)
 sigmae2store <- rep(NA, Niter)
@@ -79,14 +79,74 @@ for(iter in 2:Niter){
   
 }
 
-gname = c("traceplots.eps",sep="")  
-postscript(gname,width=6,height=4.8,horizontal = FALSE, onefile = FALSE, paper = "special")
-par(mfrow=c(2,1),oma=c(0.2,1.5,0.2,1.5),mar=c(3,2,0.2,2),cex.axis=1,las=1,mgp=c(1,0.5,0),adj=0.5)
-plot(sigmae2store, type = 'l')
-plot(sigmab2store, type = 'l')
+library(ggplot2)
+library(Rmisc) 
+library(Sleuth2)
+library(ggpubr)
+library(stringr)
+
+data_sigmag2 <- data.frame(sigmag2 = sigmab2store, Iteration = as.vector(1:Niter) )
+data_sigmae2 <- data.frame(sigmae2 = sigmae2store, Iteration = as.vector(1:Niter) )
+h1 <- mean(sigmab2store[-(1:5000)])
+h2 <- mean(sigmae2store[-(1:5000)])
+
+g1 <- ggplot(data_sigmag2, aes(x=Iteration, y=sigmag2)) + geom_line() + theme_bw() + geom_hline(yintercept=h1, linetype="dashed", color = "red")+ xlab(expression(sigma[g]^2)) + ylab("") + scale_color_manual(values = c('#595959', 'blue'))
+g2 <- ggplot(data_sigmae2, aes(x=Iteration, y=sigmae2)) + geom_line() + theme_bw() + geom_hline(yintercept=h2, linetype="dashed", color = "red")+ xlab(expression(sigma[e]^2)) + ylab("") + scale_color_manual(values = c('#595959', 'blue'))
+
+gname = c("MCMC.eps",sep="")  
+postscript(gname,width=8,height=3.2,horizontal = FALSE, onefile = FALSE, paper = "special")
+par(mfrow=c(1,2),oma=c(0.2,1.5,0.2,1.5),mar=c(3,2,0.2,2),cex.axis=1,las=1,mgp=c(1,0.5,0),adj=0.5)
+ggarrange(g1,
+          g2,
+          ncol = 2, nrow = 1, common.legend = TRUE)
 dev.off()
 
-h2 <- mean(sigmab2store[-(1:2000)])/(mean(sigmab2store[-(1:2000)])+mean(sigmae2store[-(1:2000)]))
+df_p <- data.frame(
+  p11 = sigmab2store[-(1:5000)], p21 = sigmae2store[-(1:5000)], p31 = sigmab2store[-(1:5000)]/(sigmab2store[-(1:5000)]+sigmae2store[-(1:5000)])
+)
+
+
+mean_p11 <- mean(sigmab2store[-(1:5000)])
+mean_p21 <- mean(sigmae2store[-(1:5000)])
+mean_p31 <- mean(sigmab2store[-(1:5000)]/(sigmab2store[-(1:5000)]+sigmae2store[-(1:5000)]))
+p11_25 <- quantile(sigmab2store[-(1:5000)], 0.025)
+p11_975 <- quantile(sigmab2store[-(1:5000)], 0.975)
+p21_25 <- quantile(sigmae2store[-(1:5000)], 0.025)
+p21_975 <- quantile(sigmae2store[-(1:5000)], 0.975)
+p31_25 <- quantile(sigmab2store[-(1:5000)]/(sigmab2store[-(1:5000)]+sigmae2store[-(1:5000)]), 0.025)
+p31_975 <- quantile(sigmab2store[-(1:5000)]/(sigmab2store[-(1:5000)]+sigmae2store[-(1:5000)]), 0.975)
+
+
+
+hist_p11 <- ggplot(data=df_p, aes(p11)) + 
+  geom_histogram(aes(y=..count../sum(..count..)), position="identity", color="black", fill="white", alpha=0.4, binwidth = 0.01)+ xlab(expression(sigma[g]^2)) + 
+  theme_bw()+ ylab("density") + geom_vline(xintercept=mean_p11, color = "red", size=1)+ xlim(0, 2) +
+  geom_vline(xintercept=p11_25, linetype="dashed", color = "blue", size=1)+ geom_vline(xintercept=p11_975, linetype="dashed", color = "blue", size=1)
+
+hist_p21 <- ggplot(data=df_p, aes(p21)) + 
+  geom_histogram(aes(y=..count../sum(..count..)), position="identity", color="black", fill="white", alpha=0.4, binwidth = 0.01)+ xlab(expression(sigma[e]^2)) + 
+  theme_bw()+ ylab("") + geom_vline(xintercept=mean_p21, color = "red", size=1)+xlim(0, 2) +
+  geom_vline(xintercept=p21_25, linetype="dashed", color = "blue", size=1)+ geom_vline(xintercept=p21_975, linetype="dashed", color = "blue", size=1)
+
+hist_p31 <- ggplot(data=df_p, aes(p31)) + 
+  geom_histogram(aes(y=..count../sum(..count..)), position="identity", color="black", fill="white", alpha=0.4, binwidth = 0.01)+ xlab(expression(h^2)) + 
+  theme_bw()+ ylab("") + geom_vline(xintercept=mean_p31, color = "red", size=1)+
+  geom_vline(xintercept=p31_25, linetype="dashed", color = "blue", size=1)+ geom_vline(xintercept=p31_975, linetype="dashed", color = "blue", size=1)
+
+
+gname = c("sigma_hist.eps",sep="")  
+postscript(gname,width=10,height=3,horizontal = FALSE, onefile = FALSE, paper = "special")
+par(mfrow=c(1,1),oma=c(0.2,1.5,0.2,1.5),mar=c(3,2,0.2,2),cex.axis=1,las=1,mgp=c(1,0.5,0),adj=0.5)
+
+ggarrange(hist_p11,
+          hist_p21,
+          hist_p31,
+          ncol = 3, nrow = 1, common.legend = TRUE)
+
+dev.off()
+
+
+h2 <- mean(sigmab2store[-(1:5000)])/(mean(sigmab2store[-(1:5000)])+mean(sigmae2store[-(1:5000)]))
 
 
 

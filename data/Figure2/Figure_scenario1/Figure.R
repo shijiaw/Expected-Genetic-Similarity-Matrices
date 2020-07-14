@@ -22,12 +22,16 @@ for(i in 2:100){
 
 
 
-g1 <- ggplot(data.frame(sequence = unlist(K_seq), tree = unlist(K_tree)), aes(x=sequence, y=tree)) + geom_point(color = 'blue', size = 0.5) + theme_bw()+ xlim(-1, 4.5)+ ylim(-1, 4.5)+ geom_abline(slope = 1, intercept= 0,color="red", linetype = 2)+ ylab("")+ xlab("N = 20, M = 1000")
-gname = c("s1000m20.eps",sep="")  
-postscript(gname,width=3,height=3,horizontal = FALSE, onefile = FALSE, paper = "special")
-par(mfrow=c(1,1),oma=c(0.2,1.5,0.2,1.5),mar=c(3,2,0.2,2),cex.axis=1,las=1,mgp=c(1,0.5,0),adj=0.5)
-g1
-dev.off()
+g1 <- ggplot(data.frame(sequence = unlist(K_seq), tree = unlist(K_tree)), aes(x=sequence, y=tree)) + geom_point(color = 'blue', size = 0.5) + theme_minimal()+ xlim(-1, 4.5)+ ylim(-1, 4.5)+ geom_abline(slope = 1, intercept= 0,color="red", linetype = 2)+ ylab("")+ xlab("N = 20, M = 1000")
+#gname = c("s1000m20.eps",sep="")  
+#postscript(gname,width=3,height=3,horizontal = FALSE, onefile = FALSE, paper = "special")
+#par(mfrow=c(1,1),oma=c(0.2,1.5,0.2,1.5),mar=c(3,2,0.2,2),cex.axis=1,las=1,mgp=c(1,0.5,0),adj=0.5)
+#g1
+
+ggsave(file = 'Figure2a.png', plot = ggplot2::last_plot(), height = 3, width = 3, units = "in", dpi = 900)
+
+
+#dev.off()
 
 
 

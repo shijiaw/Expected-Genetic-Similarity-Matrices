@@ -35,6 +35,7 @@ g1 <- ggplot(df, aes(x=dif, fill = Difference, color = Difference)) +
   geom_histogram(aes(y = (..count..)/sum(..count..)), position="identity", binwidth=0.01)+ xlab("") + ylab("Proportion")+ theme_minimal()+ xlim(-1.5, 0.5) + ylim(0,0.25) +
   theme(legend.position="none") + ggtitle('Expected Genetic Similarity Matrix -vs- Ground Truth')
 
+
 ggsave(file = 'Figure3a.pdf', plot = ggplot2::last_plot(), height = 2,
   width = 7, units = "in", dpi = 900)
 

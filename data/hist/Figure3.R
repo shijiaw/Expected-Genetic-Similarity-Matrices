@@ -27,19 +27,24 @@ for(i in 2:100){
 }
 
 dif <- c(unlist(K_seq-K_tree), unlist(K_seq-K_S), unlist(K_seq-K_MDS))
-Difference <- c(rep('G-T', length(unlist(K_seq-K_tree))), rep('G-S', length(unlist(K_seq-K_tree))), rep('G-MDS', length(unlist(K_seq-K_tree))))
-df = data.frame(dif = dif, Difference = Difference)
-g1 <- ggplot(df, aes(x=dif, fill = Difference, color = Difference)) +
-  geom_histogram(aes(y = (..count..)/sum(..count..)), position="identity", binwidth=0.01)+ xlab("") + ylab("proportion")+ theme_bw()+ xlim(-1.5, 0.5) +
-  theme(legend.position="top")
-
+Method <- c(rep('Expected Genetic Similarity Matrix', length(unlist(K_seq-K_tree))), rep('Kernel Method', length(unlist(K_seq-K_tree))), rep('Multidimensional Scaling', length(unlist(K_seq-K_tree))))
+df = data.frame(dif = dif, Method = Method)
+g1 <- ggplot(df, aes(factor(Method), dif))
+#g1 <- ggplot(df, aes(x=dif, fill = Difference, color = Difference)) +
+#  geom_histogram(aes(y = (..count..)/sum(..count..)), position="identity", binwidth=0.01)+ xlab("") + ylab("proportion")+ theme_bw()+ xlim(-1.5, 0.5) +
+#  theme(legend.position="top")
 
 
 #g1 <- ggplot(data.frame(sequence = unlist(K_seq), tree = unlist(K_tree)), aes(x=sequence, y=tree)) + geom_point(color = 'blue', size = 0.5) + theme_bw()+ xlim(-1, 4.5)+ ylim(-1, 4.5)+ geom_abline(slope = 1, intercept= 0,color="red", linetype = 2)+ ylab(expression(K[ij]^T))+ xlab(expression(K[ij]^G))
-gname = c("his2.eps",sep="")  
+gname = c("violin.eps",sep="")  
 postscript(gname,width=6,height=4,horizontal = FALSE, onefile = FALSE, paper = "special")
 par(mfrow=c(1,1),oma=c(0.2,1.5,0.2,1.5),mar=c(3,2,0.2,2),cex.axis=1,las=1,mgp=c(1,0.5,0),adj=0.5)
-g1
+g1 + geom_violin(aes(fill = Method))+ ylim(-1.5,0.5)+ theme_minimal()+xlab("")+ylab("pairwise difference (Method - Ground_truth)")+ 
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+       strip.background = element_rect(fill="lightblue"),
+        legend.position = "top")+coord_flip()
 dev.off()
 
 cor(unlist(K_seq), unlist(K_S), method = c("pearson", "kendall", "spearman"))

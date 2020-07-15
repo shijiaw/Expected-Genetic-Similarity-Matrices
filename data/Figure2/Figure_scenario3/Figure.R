@@ -22,7 +22,7 @@ for(i in 2:100){
 
 
 
-g1 <- ggplot(data.frame(sequence = unlist(K_seq), tree = unlist(K_tree)), aes(x=sequence, y=tree)) + geom_point(color = 'blue', size = 0.5) + theme_minimal()+ xlim(-1, 4.5)+ ylim(-1, 4.5)+ geom_abline(slope = 1, intercept= 0,color="red", linetype = 2)+ ylab("")+ xlab("N = 6, M = 1000")
+g1 <- ggplot(data.frame(sequence = unlist(K_seq), tree = unlist(K_tree)), aes(x=sequence, y=tree)) + geom_point(color = 'blue', size = 0.5) + theme_minimal()+ xlim(-1, 4.5)+ ylim(-1, 4.5)+ geom_abline(slope = 1, intercept= 0,color="red", linetype = 2)+ ylab("Expected Genetic Similarity Matrix")+ xlab("Ground_truth")+ ggtitle("N = 6, M = 1000")
 ggsave(file = 'Figure2c.png', plot = ggplot2::last_plot(), height = 3, width = 3, units = "in", dpi = 900)
 
 
